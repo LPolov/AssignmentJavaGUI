@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Business.CovidCase;
+import Data.CovidWriter;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -194,6 +195,15 @@ public class MainGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "Number of recoveries must be 0 or above.");
 						}
 						
+						CovidWriter cw = new CovidWriter();
+						cw.writeCovidData(c);
+						JOptionPane.showMessageDialog(null, "Data is written into the file");
+						
+						txtDate.setText("mm/dd/yyyy");
+						txtCity.setText("");
+						txtCases.setText("");
+						txtDeaths.setText("");
+						txtRecoveries.setText("");		
 					}
 				}
 			}

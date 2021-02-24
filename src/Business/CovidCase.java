@@ -18,6 +18,81 @@ public class CovidCase {
 		this.deaths = deaths;
 		this.recoveries = recoveries;
 	}
+	
+	public String getDate() {
+		return date;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+	
+	public int getCases() {
+		return cases;
+	}
+	
+	public int getDeaths() {
+		return deaths;
+	}
+	
+	public int getRecoveries() {
+		return recoveries;
+	}
+	
+	public boolean setDate(String date) {
+		this.date = date;
+		if (this.checkDate()) 
+		{
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
+	}
+	
+	public boolean setCity(String city) {
+		this.city = city;
+		if (this.isValidCity()) 
+		{
+			return true;
+		} 
+		else 
+		{
+			return false;
+		}
+	}
+	
+	public boolean setCases(String cases) {
+		for (Character c : cases.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		this.cases = Integer.parseInt(cases);
+		return true;
+	}
+	
+	public boolean setNumDeaths(String deaths) {
+		for (Character c : deaths.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		this.deaths = Integer.parseInt(deaths);
+		return true;
+	}
+	
+	public boolean setNumRecov(String recoveries) {
+		for (Character c : recoveries.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		this.recoveries = Integer.parseInt(recoveries);
+		return true;
+	}
+	
 	public boolean checkDate() {
 		
 		if (date.equals("") || date == null) 
