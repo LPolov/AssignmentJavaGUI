@@ -164,17 +164,14 @@ public class CovidCase {
 		else if (month == 2 && !this.isLeapYear(year) && (day > 28 || day < 1)) {
 			return false;
 		}
-		else
+		else if (month == 4 || month == 6 || month == 9 || month == 11)
 		{
 			if (day > 30 || day < 1) 
 			{
 				return false;
 			}
-			else 
-			{
-				return true;
-			} 
 		}
+		return true;
 	}
 	
 	//Checking if year is leap
