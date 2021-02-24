@@ -131,21 +131,69 @@ public class MainGUI extends JFrame {
 				} 
 				else 
 				{
-					c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
-							Integer.parseInt(recoveries));
-					if (!c.checkDate()) 
+					boolean isNuberCorrect = true;
+					
+					for (int i = 0; i < cases.length(); i++) 
 					{
-						JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
-								+ "Enter date following given format: dd/mm/yyyy \n"
-								+ "Use existing days only.");
+						if (!Character.isDigit(cases.charAt(i))) 
+						{
+							isNuberCorrect = false;
+							JOptionPane.showMessageDialog(null, "Cases number must be a positive digit or 0.");
+							break;
+						}
 					}
 					
-					if (!c.isValidCity()) {
-						JOptionPane.showMessageDialog(null, "Use English letters only to enter city name.");
+					for (int i = 0; i < deaths.length(); i++) 
+					{
+						if (!Character.isDigit(deaths.charAt(i)))
+						{
+							isNuberCorrect = false;
+							JOptionPane.showMessageDialog(null, "Deaths number must be a positive digit or 0.");
+							break;
+						}
 					}
 					
-					if (!c.isValidNumCases()) {
-						JOptionPane.showMessageDialog(null, "Number of cases must be 0 or above.");
+					for (int i = 0; i < recoveries.length(); i++) 
+					{
+						if (!Character.isDigit(recoveries.charAt(i))) 
+						{
+							isNuberCorrect = false;
+							JOptionPane.showMessageDialog(null, "Recoveries number must be a positive digit or 0.");
+							break;
+						}
+					}
+					
+					if (isNuberCorrect)
+					{
+						c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
+								Integer.parseInt(recoveries));
+						if (!c.checkDate()) 
+						{
+							JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
+									+ "Enter date following given format: dd/mm/yyyy \n"
+									+ "Use existing days only.");
+						}
+						
+						if (!c.isValidCity()) 
+						{
+							JOptionPane.showMessageDialog(null, "Use English letters only to enter city name.");
+						}
+						
+						if (!c.isValidNumCases()) 
+						{
+							JOptionPane.showMessageDialog(null, "Number of cases must be 0 or above.");
+						}
+						
+						if (!c.isValidNumDeaths()) 
+						{
+							JOptionPane.showMessageDialog(null, "Number of deaths must be 0 or above.");
+						}
+						
+						if (!c.isValidNumRecov()) 
+						{
+							JOptionPane.showMessageDialog(null, "Number of recoveries must be 0 or above.");
+						}
+						
 					}
 				}
 			}

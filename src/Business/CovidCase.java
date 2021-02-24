@@ -145,6 +145,26 @@ public class CovidCase {
 		}
 	}
 	
+	public boolean isValidNumDeaths() {
+		if (deaths < 0) {
+			return false;
+		}
+		else 
+		{
+			return true;
+		}
+	}
+	
+	public boolean isValidNumRecov() {
+		if (recoveries < 0) {
+			return false;
+		}
+		else 
+		{
+			return true;
+		}
+	}
+	
 	public static void main(String[] args) {
 		
 	}
