@@ -125,9 +125,16 @@ public class CovidCase {
 		return false;
 	}
 	
+	public boolean isValidCity() {
+		for (char c : city.toCharArray()) {
+			if (!Character.isLetter(c) && c != ' ') {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static void main(String[] args) {
-		
-		String str = "11/01/12";
 		
 	}
 }

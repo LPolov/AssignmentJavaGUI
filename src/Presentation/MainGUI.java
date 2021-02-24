@@ -129,10 +129,17 @@ public class MainGUI extends JFrame {
 				if (date.equals("") || city.equals("")  || cases.equals("")  || deaths.equals("")  || 
 						recoveries.equals("") ) {
 					JOptionPane.showMessageDialog(null, "One or more fields are empty. \nReenter Data.");
-				} else {
-					if (!c.checkDate()) {
+				} 
+				else 
+				{
+					if (!c.checkDate()) 
+					{
 						JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
-								+ "Enter date following given format: dd/mm/yyyy");
+								+ "Enter date following given format: dd/mm/yyyy \n"
+								+ "Use existing days only.");
+					}
+					if (!c.isValidCity()) {
+						JOptionPane.showMessageDialog(null, "Use English letters only to enter city name.");
 					}
 				}
 			}
