@@ -125,6 +125,7 @@ public class MainGUI extends JFrame {
 				String deaths = txtDeaths.getText();
 				String recoveries = txtRecoveries.getText();
 				CovidCase c;
+				boolean isDataCorrect = true;
 				
 				if (date.equals("") || city.equals("")  || cases.equals("")  || deaths.equals("")  || 
 						recoveries.equals("") ) {
@@ -132,13 +133,12 @@ public class MainGUI extends JFrame {
 				} 
 				else 
 				{
-					boolean isNuberCorrect = true;
 					
 					for (int i = 0; i < cases.length(); i++) 
 					{
 						if (!Character.isDigit(cases.charAt(i))) 
 						{
-							isNuberCorrect = false;
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Cases number must be a positive digit or 0.");
 							break;
 						}
@@ -148,7 +148,7 @@ public class MainGUI extends JFrame {
 					{
 						if (!Character.isDigit(deaths.charAt(i)))
 						{
-							isNuberCorrect = false;
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Deaths number must be a positive digit or 0.");
 							break;
 						}
@@ -158,18 +158,19 @@ public class MainGUI extends JFrame {
 					{
 						if (!Character.isDigit(recoveries.charAt(i))) 
 						{
-							isNuberCorrect = false;
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Recoveries number must be a positive digit or 0.");
 							break;
 						}
 					}
 					
-					if (isNuberCorrect)
+					if (isDataCorrect)
 					{
 						c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
 								Integer.parseInt(recoveries));
 						if (!c.checkDate()) 
 						{
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
 									+ "Enter date following given format: dd/mm/yyyy \n"
 									+ "Use existing days only.");
@@ -177,33 +178,46 @@ public class MainGUI extends JFrame {
 						
 						if (!c.isValidCity()) 
 						{
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Use English letters only to enter city name.");
 						}
 						
 						if (!c.isValidNumCases()) 
 						{
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Number of cases must be 0 or above.");
 						}
 						
 						if (!c.isValidNumDeaths()) 
 						{
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Number of deaths must be 0 or above.");
 						}
 						
 						if (!c.isValidNumRecov()) 
 						{
+							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "Number of recoveries must be 0 or above.");
 						}
 						
 						CovidWriter cw = new CovidWriter();
-						cw.writeCovidData(c);
-						JOptionPane.showMessageDialog(null, "Data is written into the file");
+						if (cw.isCaseAlreadyStored(c)) {
+							isDataCorrect = false;
+							JOptionPane.showMessageDialog(null, "This case is already stored.\n"
+									+ "You can only update stored information.");
+						}
 						
-						txtDate.setText("mm/dd/yyyy");
-						txtCity.setText("");
-						txtCases.setText("");
-						txtDeaths.setText("");
-						txtRecoveries.setText("");		
+						if (isDataCorrect)
+						{
+							cw.writeCovidData(c);
+							JOptionPane.showMessageDialog(null, "Data is written into the file");
+							
+							txtDate.setText("mm/dd/yyyy");
+							txtCity.setText("");
+							txtCases.setText("");
+							txtDeaths.setText("");
+							txtRecoveries.setText("");
+						}		
 					}
 				}
 			}
