@@ -203,7 +203,7 @@ public class CovidCase {
 	//Checking if name of a city is valid
 	public boolean isValidCity() {
 		for (char c : city.toCharArray()) {
-			if (!Character.isLetter(c) && c != ' ') {
+			if (!Character.isLetter(c) && c != '-') {
 				return false;
 			}
 		}

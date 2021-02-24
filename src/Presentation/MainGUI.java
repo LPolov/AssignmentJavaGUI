@@ -172,7 +172,7 @@ public class MainGUI extends JFrame {
 						{
 							isDataCorrect = false;
 							JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
-									+ "Enter date following given format: dd/mm/yyyy \n"
+									+ "Enter date following given format: mm/dd/yyyy \n"
 									+ "Use existing days only.");
 						}
 						

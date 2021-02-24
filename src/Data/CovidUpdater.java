@@ -1,11 +1,15 @@
 package Data;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import Business.CovidCase;
 
 public class CovidUpdater {
 	
@@ -13,33 +17,50 @@ public class CovidUpdater {
 	private static final String FILE_PATH = "src/covidData.txt";
 	List<String> lines = new ArrayList<>();
 	String[] extractedCityAndDate;
+	CovidWriter cw = new CovidWriter();
 	
-	public void extractData(String date, String city, int cases, int deaths, int recoveries) {
+	public boolean updateData(CovidCase c) {
 		
-		try (FileReader fr = new FileReader(FILE_PATH);
-			 BufferedReader br = new BufferedReader(fr)) {
+		if (cw.isCaseAlreadyStored(c)) {
 			
-			while((row = br.readLine()) != null) {
-				extractedCityAndDate = getDataFromRow(row);
-				
-				lines.add(row);
+			try(FileReader fr = new FileReader(FILE_PATH);
+					BufferedReader br = new BufferedReader(fr)) {
+					
+					while((row = br.readLine()) != null)
+					{
+						lines.add(row + "\n");
+					}
+			} catch (IOException e) {
+					System.out.println(e.getStackTrace());
 			}
 			
-		} catch(IOException e) {
-			System.out.println(e.getStackTrace());
+			for (String line : lines) {
+				extractedCityAndDate = getDataFromRow(line);
+				
+				if (extractedCityAndDate[0].equals(c.getDate()) && extractedCityAndDate[1].equals(c.getCity())) {
+					String newRow = c.getDate() + " " + c.getCity() + " " + c.getCases() + " " + c.getDeaths() + " " 
+				+ c.getRecoveries() + "\n";
+					
+					lines.set(lines.indexOf(line), newRow);
+					break;
+				}
+			}
+			
+			try (FileWriter fw = new FileWriter(FILE_PATH);
+				 BufferedWriter bw = new BufferedWriter(fw)) {
+				
+				for(String line : lines) {
+					bw.write(line);
+				}
+			} catch(IOException e) {
+				System.out.println(e.getStackTrace());
+			}
+			return true;
 		}
-//		Scanner scanner = new Scanner(FILE_PATH);
-//		String[] rowFromFile;
-//		
-//		while (scanner.hasNext()) {
-//			row = scanner.nextLine();
-//			rowFromFile = getDataFromRow(row);
-//			
-//			if (rowFromFile[0].equals(date) && rowFromFile[1].equals(city)) 
-//			{
-//				
-//			}
-//		}
+		else 
+		{
+			return false;
+		}
 	}
 	
 	public static String[] getDataFromRow(String row) {
@@ -54,6 +75,10 @@ public class CovidUpdater {
 			else
 			{
 				index++;
+				if (index > 4) 
+				{
+					break;
+				}
 			}
 		}
 		return data;
