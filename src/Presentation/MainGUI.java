@@ -123,8 +123,7 @@ public class MainGUI extends JFrame {
 				String cases = txtCases.getText();
 				String deaths = txtDeaths.getText();
 				String recoveries = txtRecoveries.getText();
-				CovidCase c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
-						Integer.parseInt(recoveries));
+				CovidCase c;
 				
 				if (date.equals("") || city.equals("")  || cases.equals("")  || deaths.equals("")  || 
 						recoveries.equals("") ) {
@@ -132,14 +131,21 @@ public class MainGUI extends JFrame {
 				} 
 				else 
 				{
+					c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
+							Integer.parseInt(recoveries));
 					if (!c.checkDate()) 
 					{
 						JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
 								+ "Enter date following given format: dd/mm/yyyy \n"
 								+ "Use existing days only.");
 					}
+					
 					if (!c.isValidCity()) {
 						JOptionPane.showMessageDialog(null, "Use English letters only to enter city name.");
+					}
+					
+					if (!c.isValidNumCases()) {
+						JOptionPane.showMessageDialog(null, "Number of cases must be 0 or above.");
 					}
 				}
 			}

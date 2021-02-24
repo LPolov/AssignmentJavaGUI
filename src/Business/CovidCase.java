@@ -125,6 +125,7 @@ public class CovidCase {
 		return false;
 	}
 	
+	//Checking if name of a city is valid
 	public boolean isValidCity() {
 		for (char c : city.toCharArray()) {
 			if (!Character.isLetter(c) && c != ' ') {
@@ -132,6 +133,16 @@ public class CovidCase {
 			}
 		}
 		return true;
+	}
+	
+	public boolean isValidNumCases() {
+		if (cases < 0) {
+			return false;
+		}
+		else 
+		{
+			return true;
+		}
 	}
 	
 	public static void main(String[] args) {
