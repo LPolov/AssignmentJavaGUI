@@ -6,11 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Business.CovidCase;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
@@ -78,6 +82,7 @@ public class MainGUI extends JFrame {
 		contentPane.add(lblDate);
 		
 		txtDate = new JTextField();
+		txtDate.setText("mm/dd/yyyy");
 		contentPane.add(txtDate);
 		txtDate.setColumns(10);
 		
@@ -110,6 +115,28 @@ public class MainGUI extends JFrame {
 		contentPane.add(txtRecoveries);
 		
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String date = txtDate.getText();
+				String city = txtCity.getText();
+				String cases = txtCases.getText();
+				String deaths = txtDeaths.getText();
+				String recoveries = txtRecoveries.getText();
+				CovidCase c = new CovidCase(date, city, Integer.parseInt(cases), Integer.parseInt(deaths),
+						Integer.parseInt(recoveries));
+				
+				if (date.equals("") || city.equals("")  || cases.equals("")  || deaths.equals("")  || 
+						recoveries.equals("") ) {
+					JOptionPane.showMessageDialog(null, "One or more fields are empty. \nReenter Data.");
+				} else {
+					if (!c.checkDate()) {
+						JOptionPane.showMessageDialog(null, "You have entered invalid date.\n"
+								+ "Enter date following given format: dd/mm/yyyy");
+					}
+				}
+			}
+		});
 		contentPane.add(btnSubmit);
 	}
 }
